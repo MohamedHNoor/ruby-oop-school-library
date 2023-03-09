@@ -25,7 +25,3 @@ end
 person = Person.new('Ameer', 15, parent_permission: false)
 
 person.name = 'Hamza'
-
-# puts person.can_use_services?()
-
-# puts person.name
