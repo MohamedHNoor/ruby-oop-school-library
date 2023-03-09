@@ -91,7 +91,7 @@ In order to run this project you need:
 
 Clone this repository by using the command line :
 
-- `git clonameerhamzakhalid://github.com/ameerhamzakhalid/ruby-oop-school-library.git`
+- `git clone https://github.com/ameerhamzakhalid/ruby-oop-school-library.git`
 
 ### Install
 
