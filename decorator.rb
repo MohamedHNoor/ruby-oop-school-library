@@ -1,5 +1,12 @@
-class Nameable
+require './name_able'
+
+class Decorator < Nameable
+  def initialize(nameable)
+    super()
+    @nameable = nameable
+  end
+
   def correct_name
-    raise NotImplementedError
+    @nameable.correct_name
   end
 end
