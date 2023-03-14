@@ -1,3 +1,5 @@
+require_relative 'preserve_data'
+
 def create_person
   print 'Do you want to create a student (1) or a teacher (2)? '
   print '[Input the number]: '
@@ -22,6 +24,10 @@ def check_options(app)
     puts 'Invalid choice, please select a number from [1..7]' if input < 1 || input > 7
     input_process(input, app)
   end
+
+  write_data('books', app.books)
+  write_data('people', app.people)
+  write_data('rentals', app.rentals)
 end
 
 def person_choice(choice, app)
