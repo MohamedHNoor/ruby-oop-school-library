@@ -4,7 +4,7 @@ require_relative 'trimmerdecorator'
 require_relative 'basedecorator'
 
 class Person < Nameable
-  def initialize(age, name = 'Unknown', parent_permission: true, person_type: 'student')
+  def initialize(age, person_type, name = 'Unknown', parent_permission: true)
     @id = Random.rand(1..1000)
     @name = name
     @age = age
@@ -14,8 +14,8 @@ class Person < Nameable
     super()
   end
 
-  attr_accessor :name, :age
-  attr_reader :id, :rentals
+  attr_accessor :name, :age, :id
+  attr_reader :rentals
 
   private
 

@@ -3,14 +3,47 @@ require_relative 'person'
 require_relative 'rental'
 require_relative 'student'
 require_relative 'teacher'
+require 'json'
 
 class App
   attr_accessor :books, :people, :rentals
 
   def initialize
+    base = "#{Dir.pwd}/saved_data"
+    books_reader = File.read("#{base}/books.json")
+    people_reader = File.read("#{base}/people.json")
+    rentals_reader = File.read("#{base}/rentals.json")
     @books = []
+
+    JSON.parse(books_reader).each { |x| @books.push(Book.new(x['title'], x['author'])) } unless books_reader == ''
+
     @people = []
+    handle_people(people_reader == '' ? [] : JSON.parse(people_reader))
+
     @rentals = []
+    handle_rentals(rentals_reader == '' ? [] : JSON.parse(rentals_reader))
+  end
+
+  def handle_people(array_of_json)
+    array_of_json.each do |person|
+      if person['person'] == 'Teacher'
+        teacher = Teacher.new(person['age'], person['specialization'], person['name'])
+        teacher.id = person['id']
+        @people.push(teacher)
+      else
+        student = Student.new(person['age'], person['name'], parent_permission: person['parent_permission'])
+        student.id = person['id']
+        @people.push(student)
+      end
+    end
+  end
+
+  def handle_rentals(array_of_json)
+    array_of_json.each do |x|
+      find_person = @people.select { |p| p.id == x['person'] }
+      find_book = @books.select { |b| b.title == x['book'].to_s }
+      @rentals.push(Rental.new(x['date'], find_book[0], find_person[0]))
+    end
   end
 
   def handle_student_input
@@ -28,7 +61,7 @@ class App
       puts 'Invalid selection, please choose from Y or N'
       parent_permission = handle_permission
     end
-    student = Student.new(age, name, parent_permission: parent_permission, person_type: 'student')
+    student = Student.new(age, name, parent_permission: parent_permission)
     @people << student
     puts ['Person created succsefully', ' ']
   end
@@ -45,7 +78,7 @@ class App
     name = gets.chomp.capitalize
     print 'Specialization: '
     specialization = gets.chomp.capitalize
-    teacher = Teacher.new(age, name, specialization, person_type: 'teacher')
+    teacher = Teacher.new(age, specialization, name)
     @people << teacher
     puts ['Person created successfully', ' ']
   end
