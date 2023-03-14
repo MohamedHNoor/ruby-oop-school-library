@@ -1,166 +1,123 @@
-require './student'
-require './teacher'
-require './book'
-require './rental'
+require_relative 'book'
+require_relative 'person'
+require_relative 'rental'
+require_relative 'student'
+require_relative 'teacher'
 
 class App
+  attr_accessor :books, :people, :rentals
+
   def initialize
-    @people_list = []
-    @book_list = []
+    @books = []
+    @people = []
+    @rentals = []
   end
 
-  def books
-    if @book_list.empty?
-      puts ''
-    else
-      @book_list.each do |book|
-        res = "Title: #{book.title}, Author: #{book.author}"
-        puts res
-      end
-    end
-  end
-
-  def people
-    if @people_list.empty?
-      puts ''
-    else
-      @people_list.each do |person|
-        case person[0]
-        when 'Student'
-          res = "[Student] Name: #{person[1].name}, ID: #{person[1].id}, Age: #{person[1].age}"
-          puts res
-        when 'Teacher'
-          res = "[Teacher] Name: #{person[1].name}, ID: #{person[1].id}, Age: #{person[1].age}"
-          puts res
-        end
-      end
-    end
-  end
-
-  def add_books(book)
-    @book_list << book
-  end
-
-  def add_people(person)
-    @people_list << person
-  end
-
-  def check_permission(lower)
-    case lower
-    when 'y'
-      true
-    when 'n'
-      false
-    else
-      puts 'invalid option'
-      nil
-    end
-  end
-
-  def person1
-    id = rand(1..1000)
+  def handle_student_input
     print 'Age: '
-    age = gets.chomp
+    age = gets.chomp.to_i
     print 'Name: '
-    name = gets.chomp
-    print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp
-    lower = permission.downcase
-    bool = check_permission(lower)
-    classroom = 'unknown'
-    student = Student.new(id, age, classroom, name, parent_permission: bool)
-    person = []
-    person.push('Student')
-    person.push(student)
-    add_people(person)
-    puts 'Person created successfully'
-  end
-
-  def person(option)
-    case option
-    when '1'
-      person1
-    when '2'
-      id = rand(1..1000)
-      print 'Age: '
-      age = gets.chomp
-      print 'Name: '
-      name = gets.chomp
-      print 'Specialization: '
-      specialization = gets.chomp
-      teacher = Teacher.new(id, age, specialization, name)
-      person = []
-      person.push('Teacher')
-      person.push(teacher)
-      add_people(person)
-      puts 'Person created successfully'
+    name = gets.chomp.capitalize
+    parent_permission = handle_permission
+    case parent_permission
+    when 'Y'
+      parent_permission = true
+    when 'N'
+      parent_permission = false
     else
-      puts 'Invalid option'
+      puts 'Invalid selection, please choose from Y or N'
+      parent_permission = handle_permission
     end
+    student = Student.new(age, name, parent_permission: parent_permission, person_type: 'student')
+    @people << student
+    puts ['Person created succsefully', ' ']
   end
 
-  def book(title, author)
-    book = Book.new(title, author)
-    add_books(book)
+  def handle_permission
+    print 'Has Parent permission? [Y/N]: '
+    gets.chomp.capitalize
+  end
+
+  def handle_teacher_input
+    print 'Age: '
+    age = gets.chomp.to_i
+    print 'Name: '
+    name = gets.chomp.capitalize
+    print 'Specialization: '
+    specialization = gets.chomp.capitalize
+    teacher = Teacher.new(age, name, specialization, person_type: 'teacher')
+    @people << teacher
+    puts ['Person created successfully', ' ']
+  end
+
+  def list_all_people
+    @people.each do |person|
+      puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
+
+    puts ['No person on the list', ''] if @people.empty?
+  end
+
+  def create_book
+    print 'Title: '
+    title = gets.chomp.capitalize
+    print 'Author: '
+    author = gets.chomp.capitalize
+    @books << Book.new(title, author)
     puts 'Book created successfully'
   end
 
-  def rental(date, person, book)
-    rental = Rental.new(date, person, book)
-    rental.book = book
-    rental.person = person
+  def list_all_books
+    @books.each do |book|
+      puts "Title: #{book.title}, Author: #{book.author}"
+    end
+
+    puts ['No books found on the list', ''] if @books.empty?
+  end
+
+  def create_rental
+    puts 'Select a book from the following list by number'
+    @books.each_with_index do |book, index|
+      puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}"
+    end
+    book_number = gets.chomp.to_i
+    book = @books[book_number]
+
+    puts ['', 'Select a person from the following list by number (not id']
+    @people.each_with_index do |person, index|
+      puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id} Age: #{person.age}"
+    end
+    person_number = gets.chomp.to_i
+    person = @people[person_number]
+    puts ''
+
+    print 'Date: '
+    date = gets.chomp
+
+    @rentals << Rental.new(date, book, person)
     puts 'Rental created successfully'
   end
 
-  def rentals(id)
-    person = @people_list.find { |item| item[1].id == id }
-    rental = person[1].rentals
-    rental.each do |item|
-      puts "Date: #{item.date}, Book: \"#{item.book.title}\" by #{item.book.author}"
-    end
-  end
+  def list_rentals_for_person
+    print 'ID of person: '
+    person_id = gets.chomp.to_i
 
-  def show_books
-    if @book_list.empty?
-      puts ''
-    else
-      @book_list.each_with_index do |book, index|
-        res = "#{index}) Title: #{book.title}, Author: #{book.author}"
-        puts res
-      end
-    end
-  end
-
-  def show_people
-    if @people_list.empty?
-      puts ''
-    else
-      @people_list.each_with_index do |person, index|
-        case person[0]
-        when 'Student'
-          res = "#{index} [Student] Name: #{person[1].name}, ID: #{person[1].id}, Age: #{person[1].age}"
-          puts res
-        when 'Teacher'
-          res = "#{index} [Teacher] Name: #{person[1].name}, ID: #{person[1].id}, Age: #{person[1].age}"
-          puts res
-        end
-      end
-    end
-  end
-
-  def show_person(index)
-    if @book_list.empty?
-      puts 'Add person first'
+    person = @people.find { |p| p.id == person_id }
+    if person.nil?
+      puts "No person found with id #{person_id}"
       return
     end
-    @people_list[index][1]
-  end
 
-  def show_book(index)
-    if @book_list.empty?
-      puts 'Add book first'
+    puts 'Rentals: '
+
+    rentals = @rentals.select { |r| r.person.id == person_id }
+    if rentals.empty?
+      puts "No rentals found for person with id #{person_id}"
       return
     end
-    @book_list[index]
+
+    rentals.each do |rental|
+      puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.person.name}"
+    end
   end
 end
