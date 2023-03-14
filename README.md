@@ -27,25 +27,22 @@ OPTIONAL SECTIONS:
 
 # 📗 Table of Contents
 
-- [📖 About the Project](#about-project)
-  - [🛠 Built With](#built-with)
-    - [Tech Stack](#tech-stack)
-    - [Key Features](#key-features)
-  - [🚀 Live Demo](#live-demo)
-- [💻 Getting Started](#getting-started)
-  - [Setup](#setup)
-  - [Prerequisites](#prerequisites)
-  - [Install](#install)
-  - [Usage](#usage)
-  - [Run tests](#run-tests)
-  - [Deployment](#triangular_flag_on_post-deployment)
-- [👥 Authors](#authors)
-- [🔭 Future Features](#future-features)
-- [🤝 Contributing](#contributing)
-- [⭐️ Show your support](#support)
-- [🙏 Acknowledgements](#acknowledgements)
-- [❓ FAQ](#faq)
-- [📝 License](#license)
+- [� Table of Contents](#-table-of-contents)
+- [📖 Ruby OOP School Library ](#-ruby-oop-school-library-)
+  - [🛠 Built With ](#-built-with-)
+    - [Tech Stack ](#tech-stack-)
+    - [Key Features ](#key-features-)
+  - [💻 Getting Started ](#-getting-started-)
+    - [Prerequisites](#prerequisites)
+    - [Setup](#setup)
+    - [Install](#install)
+    - [Usage](#usage)
+  - [👥 Authors ](#-authors-)
+  - [🔭 Future Features ](#-future-features-)
+  - [🤝 Contributing ](#-contributing-)
+  - [⭐️ Show your support ](#️-show-your-support-)
+  - [🙏 Acknowledgments ](#-acknowledgments-)
+  - [📝 License ](#-license-)
 
 <!-- PROJECT DESCRIPTION -->
 
@@ -116,6 +113,12 @@ To run the project, execute the following command:
 - GitHub: [@githubhandle](https://github.com/ameerhamzakhalid)
 - Twitter: [@twitterhandle](https://twitter.com/@ameeerhamza1997)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/ameerhamzakhalid/)
+
+👤 **Mohamed Hassan Noor**
+
+- GitHub: [@MohamedHNoor](https://github.com/MohamedHNoor)
+- Twitter: [@MohamedHNoor](https://twitter.com/MohamedHNoor)
+- LinkedIn: [@MohamedHNoor](https://www.linkedin.com/in/mohamedhnoor/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
