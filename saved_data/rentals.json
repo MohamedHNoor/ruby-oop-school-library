@@ -1,1 +1,5 @@
-[{"date":"2023/02/08","book":"Atomic habits","person":823},{"date":"2023/01/01","book":"Atomic habits","person":247}]
+[
+  { "date": "2023/02/08", "book": "Atomic habits", "person": 823 },
+  { "date": "2023/01/01", "book": "Atomic habits", "person": 247 },
+  { "date": "2023-03-14", "book": "Book1", "person": 918 }
+]
