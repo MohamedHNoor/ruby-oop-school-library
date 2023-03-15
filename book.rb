@@ -10,6 +10,6 @@ class Book
 
   def add_rental(rental)
     @rentals << rental
-    rentals.book = self
+    rental.book = self
   end
 end
